@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
@@ -6,6 +6,8 @@ const Signup =()=>{
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef =useRef<HTMLInputElement>(null);
     const usernameRef =useRef<HTMLInputElement>(null);
+
+    const [showPassword, setShowpassword] = useState<boolean>(false)
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
@@ -24,7 +26,19 @@ const Signup =()=>{
                     <h2>Signup Page</h2>
                     <input type="text" placeholder="Enter Username" ref={usernameRef} required/>
                     <input type="text" placeholder="Enter Email" ref={emailRef} required />
-                    <input type="password" placeholder="Enter Password" ref={passwordRef} required />
+                    <div className="password-input">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter Password"
+                            ref={passwordRef}
+                            required
+                        />
+                        <input
+                            type="checkbox"
+                            className="show-password-checkbox"
+                            onClick={() => setShowpassword(!showPassword)}
+                        />
+                    </div>
                     <input type="submit" value="Submit" />
                 </form>
                 <p>Already have an Account <Link to="/login">Login</Link></p>
@@ -52,7 +66,7 @@ const DIV = styled.div`
         flex-direction: column;
         margin: auto;
     }
-    input {
+    form > input {
         padding: 10px;
         margin-bottom:10px;
         border-radius:5px;
@@ -67,6 +81,25 @@ const DIV = styled.div`
     a {
         color: red;
         text-decoration:none;
+    }
+    .password-input {
+        border:2px solid black;
+        border-radius:5px;
+        margin-bottom:10px;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+    }
+    .password-input input:nth-child(1){
+        width: 100%;
+        padding: 10px;
+        border: none;
+    }
+    .show-password-checkbox {
+       position: absolute;
+       right: 10px;
+       top: 50%;
+       transform: translateY(-50%);
     }
 
 `
