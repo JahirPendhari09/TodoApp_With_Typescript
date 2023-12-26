@@ -3,12 +3,14 @@ import { Login } from "../pages/Login"
 import { Signup } from "../pages/Signup"
 import { Homepage } from "../pages/Homepage"
 import { Navbar } from "./Navbar"
+import { PrivateRoute } from "../components/PrivateRoute"
+import { ReactNode } from "react"
 
 const AllRoutes =()=>{
     return <>
     <Navbar/>
     <Routes>
-        <Route path="/" element={<Homepage/>} />
+        <Route path="/" element={<PrivateRoute ><Homepage/></PrivateRoute>}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
     </Routes>
