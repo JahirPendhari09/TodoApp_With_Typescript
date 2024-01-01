@@ -4,7 +4,6 @@ import { Signup } from "../pages/Signup"
 import { Homepage } from "../pages/Homepage"
 import { Navbar } from "./Navbar"
 import { PrivateRoute } from "../components/PrivateRoute"
-import { ReactNode } from "react"
 
 const AllRoutes =()=>{
     return <>
