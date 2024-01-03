@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TodoCart } from "../components/TodoCart";
 
 import "../App.css"
@@ -10,14 +10,16 @@ export type TODOS = {
     description: string;
     status: boolean;
     id: number;
-    editTodo: void
+    editTodo?: () => void; 
+    deleteTodo?: () => void; 
 };
 
 const Homepage = () => {
     const [todos, setTodos] = useState<TODOS[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
+    const titleRef= useRef<HTMLInputElement>(null);
+    const descriptionRef= useRef<HTMLInputElement>(null)
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -32,8 +34,33 @@ const Homepage = () => {
         );
 
         setTodos(updatedTodos);
+        
+    };
+    const deleteTodo = (id: number) => {
+        const updatedTodos = todos.filter((todo) =>{
+            return todo.id !== id 
+        });
+
+        setTodos(updatedTodos);
+        
     };
 
+    const submitNewTodo=(e: any)=>{
+        e.preventDefault();
+        
+        const newTodo:TODOS = {
+            title:titleRef.current?.value||'',
+            description : descriptionRef.current?.value||'',
+            id:todos.length+1,
+            status:false,
+            
+        }
+        const updatedTodo:TODOS[] =  [...todos, newTodo ];
+        setTodos(updatedTodo);
+        setIsModalOpen(false)
+    }
+
+    console.log(todos)
     return (
         <DIV>
             <div>
@@ -42,7 +69,14 @@ const Homepage = () => {
                 <div>
                     {todos?.length > 0 &&
                         todos?.map((item, i) => (
-                            <TodoCart {...item} key={i} editTodo={editTodo(1)} />
+                            <TodoCart 
+                               id={item.id}
+                               title={item.title}
+                               description={item.description}
+                               status={item.status}
+                               editTodo={() => editTodo(item.id)}
+                               deleteTodo={() => deleteTodo(item.id)}
+                            />
                         ))
                     }
                 </div>
@@ -51,9 +85,9 @@ const Homepage = () => {
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <div className="ModalBox">
                         <h3>Create New Task</h3>
-                        <form>
-                            <input type="text"  placeholder="Enter Title"  required/>
-                            <input type="text" placeholder="Enter Description" required/>
+                        <form onSubmit={submitNewTodo} >
+                            <input type="text"  placeholder="Enter Title"  ref={titleRef} required/>
+                            <input type="text" placeholder="Enter Description" ref={descriptionRef} required/>
                             <input type="submit" value="Submit"/>
                         </form>
                     </div>
@@ -82,6 +116,7 @@ const DIV = styled.div`
         color:white;
         background-color: green;
         border: 1px solid green;
+        cursor: pointer;
     }
    
 `

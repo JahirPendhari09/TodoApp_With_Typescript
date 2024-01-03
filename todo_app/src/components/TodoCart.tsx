@@ -1,15 +1,14 @@
 import { TODOS } from "../pages/Homepage";
 
-const TodoCart = ({ id, title, description, status }: TODOS, { EditTodo }: any) => {
+const TodoCart:React.FC<TODOS>  = ({ id, title, description, status, editTodo, deleteTodo}) => {
   return (
     <>
       <div>
-        <h1>Single Todo</h1>
-        <p>ID: {id}</p>
         <p>Title: {title}</p>
         <p>Description: {description}</p>
         <p>Status: {status ? "Completed" : "Incomplete"}</p>
-        <button onClick={() => EditTodo(id)}>Edit Todo</button>
+        <button onClick={() => editTodo && editTodo()}>Edit </button>
+        <button onClick={() =>  deleteTodo && deleteTodo()}>Delete</button>
       </div>
     </>
   );
