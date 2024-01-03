@@ -11,3 +11,24 @@
 # Sign up Page 
 
 ![Screenshot (56)](https://github.com/JahirPendhari09/TodoApp_With_Typescript/assets/128920395/3c245db9-98e1-4d32-92e2-e36761a8a043)
+
+
+# Tech Stack
+
+**Front-End:** <p >
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="html5" />
+    <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="css3" /> 
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="reactjs" />
+</p>
+
+## Features
+- Login & SignUp
+- Todo Page
+
+## Feedback
+
+If you have any Feedback, Please reach out to us at jahirpp1999@gmail.com
+
+## Authors
+[Jahir Pendhari](https://github.com/JahirPendhari09)
+
