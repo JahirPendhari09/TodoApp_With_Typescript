@@ -1,20 +1,50 @@
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom"
+import { useEffect, useRef, useState } from "react";
+import { Link, Navigate } from "react-router-dom"
 import styled from "styled-components"
 
 const Login = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [showPassword, setShowpassword] = useState<boolean>(false)
+    const [user, setUser]=useState({email:"",password:""})
 
+type userData =  {
+    email:string,
+    password:string,
+    sername:string
+}
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        const newUser = {
-            email: emailRef.current?.value,
-            password: passwordRef.current?.value,
+        
+        if(user?.email == emailRef.current?.value)
+        {
+            if(user?.password == passwordRef.current?.value)
+            {
+                alert("Login Success");
+                const userDataJSON = JSON.stringify(true);
+                localStorage.setItem('isAuth', userDataJSON);
+                window.location.href="/"
+            }else{
+               alert("Password is Invalid");
+            }
+        }else{
+            alert("Email is Invalid");
         }
-        console.log(newUser)
+        
     };
+    const getStoredUserData = () => {
+        const storedUserData = localStorage.getItem('user');
+
+        if (storedUserData) {
+            const parsedUserData = JSON.parse(storedUserData) as userData;
+            setUser(parsedUserData);
+        }
+    };
+
+    useEffect(()=>{
+        getStoredUserData()
+    },[])
+
     return <>
         <DIV>
             <div className="loginBox">

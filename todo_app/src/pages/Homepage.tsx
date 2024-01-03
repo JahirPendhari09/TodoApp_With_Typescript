@@ -1,32 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { TodoCart } from "../components/TodoCart";
 
 import "../App.css"
-import Modal from "../components/Modal";
 import styled from "styled-components";
 
 export type TODOS = {
     title: string;
-    description: string;
     status: boolean;
     id: number;
+    sr?:number;
     editTodo?: () => void; 
     deleteTodo?: () => void; 
 };
 
 const Homepage = () => {
     const [todos, setTodos] = useState<TODOS[]>([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const titleRef= useRef<HTMLInputElement>(null);
-    const descriptionRef= useRef<HTMLInputElement>(null)
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
+    const[title, setTitle] = useState<string>("");
 
     const editTodo = (id: number) => {
         const updatedTodos = todos.map((todo) =>
@@ -37,42 +27,48 @@ const Homepage = () => {
         
     };
     const deleteTodo = (id: number) => {
-        const updatedTodos = todos.filter((todo) =>{
+        const updatedTodos = todos.filter((todo) =>
+        {
             return todo.id !== id 
         });
 
         setTodos(updatedTodos);
-        
     };
 
     const submitNewTodo=(e: any)=>{
         e.preventDefault();
-        
-        const newTodo:TODOS = {
-            title:titleRef.current?.value||'',
-            description : descriptionRef.current?.value||'',
-            id:todos.length+1,
-            status:false,
-            
-        }
-        const updatedTodo:TODOS[] =  [...todos, newTodo ];
-        setTodos(updatedTodo);
-        setIsModalOpen(false)
+        if(title==""){
+            alert("Please enter Your title")
+        }else{
+            const newTodo:TODOS = {
+                title:title,
+                id:Math.random(),
+                status:false,            
+            }
+            const updatedTodo:TODOS[] =  [...todos, newTodo ];
+            setTodos(updatedTodo);
+            setTitle("")
+
+        }  
     }
 
     console.log(todos)
     return (
         <DIV>
-            <div>
-                <h1>Home Page</h1>
-                <button onClick={openModal}>Create new Todo</button>
-                <div>
+            <h1>My Todos</h1>
+            <div className="todoBox">
+                <div className="createBox">
+                    <input type="text"  placeholder="Enter Title" value={title} onChange={(e)=> setTitle(e.target.value) }/>
+                    <button onClick={submitNewTodo}>Create</button>
+                </div>
+                <div >
+                <hr />
                     {todos?.length > 0 &&
                         todos?.map((item, i) => (
                             <TodoCart 
                                id={item.id}
+                               sr={i+1}
                                title={item.title}
-                               description={item.description}
                                status={item.status}
                                editTodo={() => editTodo(item.id)}
                                deleteTodo={() => deleteTodo(item.id)}
@@ -81,18 +77,6 @@ const Homepage = () => {
                     }
                 </div>
             </div>
-            <div>
-                <Modal isOpen={isModalOpen} onClose={closeModal}>
-                    <div className="ModalBox">
-                        <h3>Create New Task</h3>
-                        <form onSubmit={submitNewTodo} >
-                            <input type="text"  placeholder="Enter Title"  ref={titleRef} required/>
-                            <input type="text" placeholder="Enter Description" ref={descriptionRef} required/>
-                            <input type="submit" value="Submit"/>
-                        </form>
-                    </div>
-                </Modal>
-            </div>
         </DIV>
     );
 };
@@ -100,23 +84,35 @@ const Homepage = () => {
 export { Homepage };
 
 const DIV = styled.div`
-    
-    form{
-        display: flex;
-        flex-direction: column;
-        width: 80%;
+
+    .todoBox {
+        width: 60%;
         margin: auto;
+        /* border: 1px solid black; */
+        /* margin-top:50px; */
+        padding: 30px;
     }
+    
+    .createBox {
+        width: 90%;
+        display: flex;
+        gap: 50px;
+        margin: auto;
+        margin-bottom:20px;
+    }
+
     input {
         padding: 7px;
-        margin-bottom:10px;
-        border-radius:5px
+        border-radius:5px;
+        width: 90%;
     }
-    input:nth-child(3) {
-        color:white;
-        background-color: green;
-        border: 1px solid green;
+    button {
+        width: 100px;
+        border-radius: 5px;
         cursor: pointer;
+        background-color: blue;
+        color: white;
     }
+
    
 `

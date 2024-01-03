@@ -6,15 +6,10 @@ interface PrivateRouteProps {
   }
 const PrivateRoute:React.FC<PrivateRouteProps> =({children})=>{
 
-    const [isAuth,setAuth] = useState<Boolean>(true);
-    const location = useLocation();
-    if (!isAuth) {
+    const isAuth=localStorage.getItem("isAuth")||false
+    if (isAuth==false) {
         return (
-          <Navigate
-            to="/login"
-            state={{ pathname: location.pathname }}
-            replace={true}
-          />
+          <Navigate to="/login"/>
         );
       }
     return <>{children}</>;

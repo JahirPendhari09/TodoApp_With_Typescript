@@ -11,13 +11,17 @@ const Signup =()=>{
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        const newUser = {
+        const user = {
             email:emailRef.current?.value,
             password:passwordRef.current?.value,
             username:usernameRef.current?.value
         }
-        console.log(newUser)
-      };
+        const userDataJSON = JSON.stringify(user);
+        localStorage.setItem('user', userDataJSON);
+        alert("Sign up success redirect to login");
+        window.location.href="/login"
+
+    };
 
     return <>
         <DIV>
